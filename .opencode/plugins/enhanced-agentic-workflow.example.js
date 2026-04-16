@@ -2,7 +2,7 @@ import { createEnhancedAgenticWorkflowPlugin } from "./enhanced-agentic-workflow
 
 export const EnhancedAgenticWorkflowPlugin = createEnhancedAgenticWorkflowPlugin({
   workflowTag: "my-team-agentic-flow",
-  blockedCommandPatterns: ["rm -rf /", "shutdown"],
+  blockedCommandPatterns: ["rm -rf /", /\bshutdown\b/i],
   injectEnv: {
     TEAM: "platform",
     WORKFLOW_MODE: "strict",

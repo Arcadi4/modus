@@ -1,4 +1,5 @@
 const FORK_BOMB_PATTERN = /:\(\)\s*\{\s*:\|:&\s*;\s*\}:\s*;?/
+const DANGEROUS_ROOT_PATHS = new Set(["/", "/*", "/home", "/etc", "/var", "/usr", "/opt", "/bin", "/sbin", "/lib", "/boot"])
 
 const defaultOptions = {
   workflowTag: "enhanced-agentic-workflow",
@@ -22,6 +23,21 @@ const mergeOptions = (overrides = {}) => ({
   extraCompactionContext: overrides.extraCompactionContext ?? defaultOptions.extraCompactionContext,
 })
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+
+const isDangerousRmCommand = (command) => {
+  const normalized = command.trim().replace(/\s+/g, " ").toLowerCase()
+  if (!normalized.startsWith("rm ")) return false
+
+  const tokens = normalized.split(" ")
+  const flags = tokens.filter((token) => token.startsWith("-")).join("")
+  const hasRecursive = flags.includes("r")
+  const hasForce = flags.includes("f")
+  if (!hasRecursive || !hasForce) return false
+
+  return tokens.some((token) => DANGEROUS_ROOT_PATHS.has(token))
+}
+
 const matchesBlockedPattern = (command, pattern) => {
   if (pattern instanceof RegExp) {
     return pattern.test(command)
@@ -30,7 +46,9 @@ const matchesBlockedPattern = (command, pattern) => {
   if (typeof pattern === "string") {
     const normalizedCommand = command.trim().replace(/\s+/g, " ").toLowerCase()
     const normalizedPattern = pattern.trim().replace(/\s+/g, " ").toLowerCase()
-    return normalizedPattern.length > 0 && normalizedCommand.includes(normalizedPattern)
+    if (normalizedPattern.length === 0) return false
+    const boundaryPattern = new RegExp(`(^|\\s|[;&|])${escapeRegExp(normalizedPattern)}($|\\s|[;&|])`, "i")
+    return boundaryPattern.test(normalizedCommand)
   }
 
   return false
@@ -73,6 +91,9 @@ export const createEnhancedAgenticWorkflowPlugin = (pluginOptions = {}) => {
         if (input.tool !== "bash") return
 
         const command = String(input?.arguments?.command ?? "")
+        if (isDangerousRmCommand(command)) {
+          throw new Error(`Command blocked by enhanced agentic workflow rm -rf safeguard (command: ${command})`)
+        }
         const matchedPattern = options.blockedCommandPatterns.find((pattern) => matchesBlockedPattern(command, pattern))
         if (matchedPattern) {
           throw new Error(
