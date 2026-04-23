@@ -4,6 +4,7 @@
 .codex
 .claude
 docs/superpowers
+docs/private
 
 # opencode runtime artifacts
 .opencode/node_modules
