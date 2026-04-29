@@ -254,7 +254,7 @@ describe("explicit agent sync safety", () => {
     const root = path.join(tmpdir(), `harness-explicit-refuse-${Date.now()}`)
     const agentsDir = path.join(root, "agents")
     await mkdir(agentsDir, { recursive: true })
-    await writeFile(path.join(agentsDir, "architect.md"), "user-owned content\n")
+    await writeFile(path.join(agentsDir, "harness-architect.md"), "user-owned content\n")
 
     try {
       const plan = buildExplicitAgentSyncPlan({ agentsDir, scope: "project" })
@@ -268,10 +268,10 @@ describe("explicit agent sync safety", () => {
       expect(result.files).toContainEqual(
         expect.objectContaining({
           operation: "refused",
-          path: path.join(agentsDir, "architect.md"),
+          path: path.join(agentsDir, "harness-architect.md"),
         })
       )
-      await expect(readFile(path.join(agentsDir, "architect.md"), "utf8")).resolves.toBe(
+      await expect(readFile(path.join(agentsDir, "harness-architect.md"), "utf8")).resolves.toBe(
         "user-owned content\n"
       )
     } finally {
@@ -283,7 +283,7 @@ describe("explicit agent sync safety", () => {
     const { buildExplicitAgentSyncPlan, syncExplicitAgentDefinitions } = await loadExplicitSyncApi()
     const root = path.join(tmpdir(), `harness-explicit-force-${Date.now()}`)
     const agentsDir = path.join(root, "agents")
-    const targetFile = path.join(agentsDir, "architect.md")
+    const targetFile = path.join(agentsDir, "harness-architect.md")
     await mkdir(agentsDir, { recursive: true })
     await writeFile(targetFile, "user-owned content\n")
 

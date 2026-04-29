@@ -176,10 +176,42 @@ export async function syncFiles(
             fileResult.operation = "skipped"
             fileResult.reason = "unmanaged file collision - skipped"
             result.skipped++
+          } else if (overwritePolicy === "backup" && backup) {
+            // Backup unmanaged file then overwrite
+            if (dryRun) {
+              fileResult.operation = "updated"
+              fileResult.reason = "dry-run: would backup unmanaged then overwrite"
+              result.updated++
+            } else {
+              try {
+                const backupPath = await createBackup(filePath)
+                fileResult.backupPath = backupPath
+                result.backups.push(backupPath)
+                await atomicWrite(filePath, renderedContent, customWriteFile)
+                fileResult.operation = "updated"
+                result.updated++
+              } catch (backupError) {
+                fileResult.operation = "refused"
+                fileResult.reason = `backup failed: ${backupError}`
+                result.refused++
+                result.success = false
+              }
+            }
+          } else if (overwritePolicy === "overwrite") {
+            // Overwrite unmanaged without backup
+            if (dryRun) {
+              fileResult.operation = "updated"
+              fileResult.reason = "dry-run: would overwrite unmanaged"
+              result.updated++
+            } else {
+              await atomicWrite(filePath, renderedContent, customWriteFile)
+              fileResult.operation = "updated"
+              result.updated++
+            }
           } else {
-            // backup or overwrite - treat as unmanaged collision and refuse by default
+            // Unknown or unsupported policy - refuse
             fileResult.operation = "refused"
-            fileResult.reason = "unmanaged file collision"
+            fileResult.reason = `unmanaged file collision (policy: ${overwritePolicy})`
             result.refused++
             result.success = false
           }
