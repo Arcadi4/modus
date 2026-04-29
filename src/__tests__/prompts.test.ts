@@ -55,10 +55,10 @@ Output:
 
   it("renders short directive and reminder helpers", () => {
     expect(buildDirective({ marker: "directive", text: "Use the smallest useful context." })).toBe(
-      "[DIRECTIVE]\nUse the smallest useful context.",
+      "[DIRECTIVE]\nUse the smallest useful context."
     )
     expect(buildReminder({ marker: "reminder", text: "Verify before reporting completion." })).toBe(
-      "[REMINDER]\nVerify before reporting completion.",
+      "[REMINDER]\nVerify before reporting completion."
     )
   })
 })

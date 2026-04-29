@@ -18,10 +18,7 @@ export function buildPromptSections(module: PromptModule): PromptSection[] {
     {
       marker: "metadata",
       kind: "metadata",
-      lines: [
-        `Role: ${module.metadata.role}`,
-        `Intent: ${module.metadata.intent}`,
-      ],
+      lines: [`Role: ${module.metadata.role}`, `Intent: ${module.metadata.intent}`],
     },
     {
       marker: "constraints",

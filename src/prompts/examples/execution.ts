@@ -22,10 +22,6 @@ export const executionPrompt: PromptModule = {
       "make the smallest coherent change",
       "run the required checks once they pass",
     ],
-    output: [
-      "summary of edits",
-      "verification evidence",
-      "remaining follow-up if any",
-    ],
+    output: ["summary of edits", "verification evidence", "remaining follow-up if any"],
   },
 }

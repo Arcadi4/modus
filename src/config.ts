@@ -1,9 +1,10 @@
 import { z } from "zod"
 
-const PromptVerbositySchema = z.string().refine(
-  (val) => ["minimal", "normal", "verbose"].includes(val),
-  { message: 'promptVerbosity must be "minimal", "normal", or "verbose"' }
-)
+const PromptVerbositySchema = z
+  .string()
+  .refine((val) => ["minimal", "normal", "verbose"].includes(val), {
+    message: 'promptVerbosity must be "minimal", "normal", or "verbose"',
+  })
 
 const RoleProfileSettingsSchema = z.object({
   enabled: z.boolean().default(true),

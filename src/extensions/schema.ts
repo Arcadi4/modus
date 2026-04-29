@@ -27,7 +27,10 @@ export const HookSurfaceSchema = z.enum([
   "shell.env",
 ])
 
-const IdentifierSchema = z.string().min(1).regex(/^[a-z][a-z0-9._-]*$/)
+const IdentifierSchema = z
+  .string()
+  .min(1)
+  .regex(/^[a-z][a-z0-9._-]*$/)
 
 export const CapabilityRequirementSchema = z.object({
   id: IdentifierSchema,
@@ -83,11 +86,7 @@ export const HookDescriptorSchema = BaseExtensionDescriptorSchema.extend({
 })
 
 export const ExtensionDescriptorSchema = z
-  .discriminatedUnion("kind", [
-    CommandDescriptorSchema,
-    ToolDescriptorSchema,
-    HookDescriptorSchema,
-  ])
+  .discriminatedUnion("kind", [CommandDescriptorSchema, ToolDescriptorSchema, HookDescriptorSchema])
   .superRefine((descriptor, context) => {
     const usesExperimentalSurface = descriptor.surface.startsWith("experimental.")
     if (usesExperimentalSurface && !descriptor.experimental) {

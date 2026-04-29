@@ -6,10 +6,5 @@ export type {
   PromptSection,
   PromptSectionKind,
 } from "./types"
-export {
-  buildDirective,
-  buildPrompt,
-  buildPromptSections,
-  buildReminder,
-} from "./builder"
+export { buildDirective, buildPrompt, buildPromptSections, buildReminder } from "./builder"
 export { executionPrompt, planningPrompt } from "./examples"

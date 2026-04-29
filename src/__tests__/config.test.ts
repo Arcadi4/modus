@@ -58,16 +58,14 @@ describe("HarnessPluginConfig", () => {
 
   describe("invalid config rejection", () => {
     it("rejects invalid promptVerbosity", () => {
-      expect(() =>
-        HarnessPluginConfigSchema.parse({ promptVerbosity: "invalid" })
-      ).toThrow()
+      expect(() => HarnessPluginConfigSchema.parse({ promptVerbosity: "invalid" })).toThrow()
     })
 
     it("rejects invalid promptVerbosity value", () => {
       const result = HarnessPluginConfigSchema.safeParse({ promptVerbosity: "debug" })
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].message).toContain('promptVerbosity must be')
+        expect(result.error.issues[0].message).toContain("promptVerbosity must be")
       }
     })
 

@@ -30,7 +30,13 @@ export const BACKGROUND_STATE_METADATA: BackgroundStateMetadata = {
   },
 }
 
-export type BackgroundTaskStatus = "queued" | "running" | "completed" | "cancelled" | "failed" | "stale"
+export type BackgroundTaskStatus =
+  | "queued"
+  | "running"
+  | "completed"
+  | "cancelled"
+  | "failed"
+  | "stale"
 
 export type CancellationReason = "user_requested" | "superseded" | "stale" | "failed" | "policy"
 

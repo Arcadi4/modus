@@ -20,10 +20,10 @@ export const RoleNameSchema = z.enum([
   "documentation",
 ] satisfies [RoleName, ...RoleName[]])
 
-export const RoleCategorySchema = z.enum([
-  "primary",
-  "subagent",
-] satisfies [RoleCategory, ...RoleCategory[]])
+export const RoleCategorySchema = z.enum(["primary", "subagent"] satisfies [
+  RoleCategory,
+  ...RoleCategory[],
+])
 
 const RoleIdSchema = z
   .string()

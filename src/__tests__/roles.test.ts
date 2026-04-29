@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { roleDefinitions } from "../types/roles"
-import {
-  RoleManifestSchema,
-  roleManifests,
-  roleManifestList,
-  type RoleManifest,
-} from "../roles"
+import { RoleManifestSchema, roleManifests, roleManifestList, type RoleManifest } from "../roles"
 
 describe("role manifests", () => {
   it("provides a valid manifest for every role name", () => {

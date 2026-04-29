@@ -22,10 +22,6 @@ export const planningPrompt: PromptModule = {
       "split work by stable file or module boundary",
       "attach a concrete check to each deliverable",
     ],
-    output: [
-      "one task list",
-      "known risks",
-      "verification sequence",
-    ],
+    output: ["one task list", "known risks", "verification sequence"],
   },
 }

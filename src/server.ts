@@ -5,11 +5,7 @@ import { createShellEnvHook } from "./hooks/shell-env"
 
 export { HarnessPluginConfigSchema, loadConfig } from "./config"
 export type { HarnessPluginConfig } from "./config"
-export {
-  getRoleManifest,
-  roleManifestList,
-  roleManifests,
-} from "./roles"
+export { getRoleManifest, roleManifestList, roleManifests } from "./roles"
 export type { RoleManifest, RoleManifestInput } from "./roles"
 export {
   buildDirective,

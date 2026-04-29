@@ -8,61 +8,61 @@
 /** FUTURE: Context budget for direct file reads by primary agents. */
 export interface ContextBudget {
   /** Maximum files allowed in direct read budget. */
-  maxFiles: number;
+  maxFiles: number
   /** Files already consumed from budget. */
-  usedFiles: number;
+  usedFiles: number
   /** Rationale for each file selection. */
-  selections: Array<{ path: string; reason: string }>;
+  selections: Array<{ path: string; reason: string }>
 }
 
 /** FUTURE: Loop note for closed sub-discussion replacement. */
 export interface LoopNote {
   /** Stable reference ID. */
-  id: string;
+  id: string
   /** Source message range boundaries. */
-  sourceBounds: { start: number; end: number };
+  sourceBounds: { start: number; end: number }
   /** Initial request preserved. */
-  initialRequest: string;
+  initialRequest: string
   /** Final conclusion preserved. */
-  finalConclusion: string;
+  finalConclusion: string
   /** Unresolved caveats if any. */
-  caveats?: string[];
+  caveats?: string[]
 }
 
 /** FUTURE: Skill exposure profile for agent/task scoping. */
 export interface SkillExposureProfile {
   /** Agent role this profile applies to. */
-  agentRole: string;
+  agentRole: string
   /** Task type this profile applies to. */
-  taskType: string;
+  taskType: string
   /** Skills exposed to this agent/task combination. */
-  exposedSkills: string[];
+  exposedSkills: string[]
   /** Whether user can override the profile. */
-  allowOverride: boolean;
+  allowOverride: boolean
 }
 
 /** FUTURE: ADR record with human sign-off requirement. */
 export interface ArchitectureDecisionRecord {
   /** Unique identifier (e.g., ADR-001). */
-  id: string;
+  id: string
   /** Short descriptive title. */
-  title: string;
+  title: string
   /** Current status. */
-  status: "proposed" | "accepted" | "deprecated" | "superseded";
+  status: "proposed" | "accepted" | "deprecated" | "superseded"
   /** Situation and constraints. */
-  context: string;
+  context: string
   /** Specific decision made. */
-  decision: string;
+  decision: string
   /** Tradeoffs and implications. */
-  consequences: string;
+  consequences: string
   /** Human approval required flag. */
-  humanApprovalRequired: true;
+  humanApprovalRequired: true
   /** Approver name if approved. */
-  approvedBy?: string;
+  approvedBy?: string
   /** Approval date if approved. */
-  approvedDate?: string;
+  approvedDate?: string
   /** Superseded by ADR ID if applicable. */
-  supersededBy?: string;
+  supersededBy?: string
 }
 
 // No runtime exports. Types only.

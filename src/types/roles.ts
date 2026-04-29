@@ -28,18 +28,58 @@ export interface RoleDefinition {
 }
 
 export const roleDefinitions: Record<RoleName, RoleDefinition> = {
-  architect: { name: "architect", category: "primary", description: "Interactive, critical thinking, strategical search" },
-  planner: { name: "planner", category: "primary", description: "Minimal output, deep reasoning, command following" },
-  executor: { name: "executor", category: "primary", description: "Minimal output, long context retrieval, orchestrates sub-agents" },
-  "agile-high": { name: "agile-high", category: "primary", description: "Deep reasoning, proficient terminal use, one-shot atomic tasks" },
-  "agile-low": { name: "agile-low", category: "primary", description: "Deep reasoning, proficient terminal use, one-shot atomic tasks" },
-  introspective: { name: "introspective", category: "primary", description: "Extracts skills/docs from sessions" },
+  architect: {
+    name: "architect",
+    category: "primary",
+    description: "Interactive, critical thinking, strategical search",
+  },
+  planner: {
+    name: "planner",
+    category: "primary",
+    description: "Minimal output, deep reasoning, command following",
+  },
+  executor: {
+    name: "executor",
+    category: "primary",
+    description: "Minimal output, long context retrieval, orchestrates sub-agents",
+  },
+  "agile-high": {
+    name: "agile-high",
+    category: "primary",
+    description: "Deep reasoning, proficient terminal use, one-shot atomic tasks",
+  },
+  "agile-low": {
+    name: "agile-low",
+    category: "primary",
+    description: "Deep reasoning, proficient terminal use, one-shot atomic tasks",
+  },
+  introspective: {
+    name: "introspective",
+    category: "primary",
+    description: "Extracts skills/docs from sessions",
+  },
   researcher: { name: "researcher", category: "subagent", description: "Online research" },
   explorer: { name: "explorer", category: "subagent", description: "Codebase exploration" },
-  "programmer-low": { name: "programmer-low", category: "subagent", description: "Code writing/modifying" },
-  "programmer-medium": { name: "programmer-medium", category: "subagent", description: "Code writing/modifying" },
-  "programmer-high": { name: "programmer-high", category: "subagent", description: "Code writing/modifying" },
-  "multi-modal-assistant": { name: "multi-modal-assistant", category: "subagent", description: "Visual models" },
+  "programmer-low": {
+    name: "programmer-low",
+    category: "subagent",
+    description: "Code writing/modifying",
+  },
+  "programmer-medium": {
+    name: "programmer-medium",
+    category: "subagent",
+    description: "Code writing/modifying",
+  },
+  "programmer-high": {
+    name: "programmer-high",
+    category: "subagent",
+    description: "Code writing/modifying",
+  },
+  "multi-modal-assistant": {
+    name: "multi-modal-assistant",
+    category: "subagent",
+    description: "Visual models",
+  },
   reviewer: { name: "reviewer", category: "subagent", description: "Code review feedback" },
   tester: { name: "tester", category: "subagent", description: "Test writing/execution" },
   documentation: { name: "documentation", category: "subagent", description: "Doc management" },
