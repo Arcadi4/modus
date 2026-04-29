@@ -11,7 +11,7 @@ import {
   parseLauncherArgs,
   syncAgentDefinitions,
 } from "./dev-opencode-lib"
-import type { SyncOptions, SyncResult } from "../src/materialization/types"
+import type { SyncOptions, SyncResult } from "../src/opencode/types"
 
 type ExplicitAgentSyncPlan = {
   agentsDir: string

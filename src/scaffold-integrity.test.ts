@@ -32,9 +32,9 @@ import {
   type CollisionPolicy,
   type SyncOptions,
   type SyncResult,
-} from "./materialization"
-import { syncFiles, type SyncEngine } from "./materialization/sync"
-import { renderAgentDefinition, type Renderer } from "./materialization/renderer"
+} from "./opencode"
+import { syncFiles, type SyncEngine } from "./opencode/sync"
+import { renderAgentDefinition, type Renderer } from "./opencode/renderer"
 import {
   generateOpenCodeDescriptors,
   validateDescriptorCount,
@@ -42,7 +42,7 @@ import {
   validateSafeIds,
   verifyDeterministic,
   type OpenCodeAgentDescriptor,
-} from "./materialization/opencode-adapter"
+} from "./opencode/opencode-adapter"
 
 describe("scaffold integrity", () => {
   describe("module imports", () => {
