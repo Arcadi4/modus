@@ -1,7 +1,11 @@
 import { constants } from "node:fs"
 import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises"
+import { homedir } from "node:os"
 import path from "node:path"
 
+import { generateOpenCodeDescriptors } from "../src/opencode/opencode-adapter"
+import { syncFiles } from "../src/opencode/sync"
+import type { SyncOptions, SyncResult, TargetConfig } from "../src/opencode/types"
 import { roleManifestList, type RoleManifest } from "../src/roles"
 
 export type LauncherArgs = {
@@ -10,6 +14,18 @@ export type LauncherArgs = {
   profileDir: string | null
   runMessage: string
   useGlobal: boolean
+}
+
+export type ExplicitAgentSyncPlan = {
+  agentsDir: string
+  options: SyncOptions
+  scope: "project" | "global" | "user"
+}
+
+export type ExplicitAgentSyncInput = {
+  agentsDir: string
+  force?: boolean
+  scope: "project" | "global" | "user"
 }
 
 export type LauncherState = {
@@ -164,13 +180,25 @@ export async function ensureIsolatedProfile(state: LauncherState): Promise<void>
 
 export async function syncAgentDefinitions(state: LauncherState): Promise<void> {
   const agentsDir = path.join(state.configDir, "agents")
-  await mkdir(agentsDir, { recursive: true })
 
-  await Promise.all(
-    roleManifestList.map((manifest) =>
-      writeFile(path.join(agentsDir, `${manifest.name}.md`), renderAgentDefinition(manifest))
-    )
+  const result = await syncFiles(
+    { path: agentsDir, scope: "project" },
+    {
+      descriptors: generateOpenCodeDescriptors(),
+      dryRun: false,
+      backup: true,
+      overwritePolicy: "backup",
+      verbose: false,
+    }
   )
+
+  console.log(
+    `[syncAgentDefinitions] Agent definitions synced: ${result.created} created, ${result.updated} updated, ${result.skipped} skipped, ${result.deleted} deleted`
+  )
+
+  if (!result.success) {
+    console.error("[syncAgentDefinitions] Sync completed with errors:", result.errors)
+  }
 }
 
 export async function clearIsolatedPackageCache(state: LauncherState): Promise<void> {
@@ -243,4 +271,64 @@ ${manifest.delegationGuidance.guidance}
 
 function quoteYamlString(value: string): string {
   return JSON.stringify(value)
+}
+
+function resolveAgentsDir(scope: "project" | "global" | "user", agentsDir?: string): string {
+  if (agentsDir) {
+    return agentsDir
+  }
+
+  const home = homedir()
+
+  switch (scope) {
+    case "global":
+    case "user": {
+      const openCodeConfigDir = process.env.OPENCODE_CONFIG_DIR
+      if (openCodeConfigDir) {
+        return path.join(openCodeConfigDir, "agents")
+      }
+
+      const xdgConfigHome = process.env.XDG_CONFIG_HOME
+      if (xdgConfigHome) {
+        return path.join(xdgConfigHome, "opencode", "agents")
+      }
+
+      return path.join(home, ".config", "opencode", "agents")
+    }
+    case "project":
+    default: {
+      return path.join(process.cwd(), ".opencode", "agents")
+    }
+  }
+}
+
+export function buildExplicitAgentSyncPlan(input: ExplicitAgentSyncInput): ExplicitAgentSyncPlan {
+  const agentsDir = resolveAgentsDir(input.scope, input.agentsDir)
+
+  const options: SyncOptions = {
+    backup: true,
+    dryRun: !input.force,
+    overwritePolicy: input.force ? "backup" : "error",
+    verbose: false,
+  }
+
+  return {
+    agentsDir,
+    options,
+    scope: input.scope,
+  }
+}
+
+export async function syncExplicitAgentDefinitions(plan: ExplicitAgentSyncPlan): Promise<SyncResult> {
+  const descriptors = generateOpenCodeDescriptors()
+
+  const target: TargetConfig = {
+    path: plan.agentsDir,
+    scope: plan.scope,
+  }
+
+  return syncFiles(target, {
+    ...plan.options,
+    descriptors,
+  })
 }

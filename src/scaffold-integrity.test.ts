@@ -726,6 +726,11 @@ describe("scaffold integrity", () => {
       expect(typeof verifyDeterministic).toBe("function")
     })
 
+    it("generates exactly 15 descriptors", () => {
+      const descriptors = generateOpenCodeDescriptors()
+      expect(descriptors.length).toBe(15)
+    })
+
     it("validates TargetConfig schema", () => {
       const valid = TargetConfigSchema.parse({ path: "/test", scope: "global" })
       expect(valid.path).toBe("/test")
