@@ -17,9 +17,8 @@
   },
   "scripts": {
     "typecheck": "tsc --project tsconfig.check.json --noEmit",
-    "check": "bun run typecheck",
-    "lint": "GIT_MASTER=1 git ls-files -z 'src/**/*.ts' 'scripts/**/*.ts' | xargs -0 oxlint",
-    "lint:fix": "GIT_MASTER=1 git ls-files -z 'src/**/*.ts' 'scripts/**/*.ts' | xargs -0 oxlint --fix",
+    "lint": "git ls-files -z --cached --others --exclude-standard 'src/**/*.ts' 'scripts/**/*.ts' | xargs -0 oxlint",
+    "lint:fix": "git ls-files -z --cached --others --exclude-standard 'src/**/*.ts' 'scripts/**/*.ts' | xargs -0 oxlint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest",
