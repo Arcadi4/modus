@@ -24,19 +24,12 @@ const ModelCapabilitiesSchema = z.object({
   supportsJsonMode: z.boolean().default(false),
 })
 
-const TerminologyScanSettingsSchema = z.object({
-  enabled: z.boolean().default(true),
-  customTerms: z.array(z.string()).default([]),
-  scanOnStartup: z.boolean().default(true),
-})
-
 export const HarnessPluginConfigSchema = z.object({
   envPrefix: z.string().min(1).default("HARNESS"),
   roleProfiles: z.record(z.string(), RoleProfileSettingsSchema).optional(),
   promptVerbosity: PromptVerbositySchema.default("normal"),
   extensionToggles: z.record(z.string(), ExtensionToggleSettingsSchema).optional(),
   modelCapabilities: ModelCapabilitiesSchema.optional(),
-  terminologyScan: TerminologyScanSettingsSchema.optional(),
 })
 
 export type HarnessPluginConfig = z.infer<typeof HarnessPluginConfigSchema>
@@ -50,11 +43,6 @@ export function loadConfig(): HarnessPluginConfig {
       supportsTools: false,
       supportsVision: false,
       supportsJsonMode: false,
-    },
-    terminologyScan: parsed.terminologyScan ?? {
-      enabled: true,
-      customTerms: [],
-      scanOnStartup: true,
     },
   }
 }
