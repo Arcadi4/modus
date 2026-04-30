@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-harness-construction": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/agent-harness-construction/SKILL.md",
+      "computedHash": "5601e5ab105717b62a249aa6875482d1865433dfd89e2d7fe25166df950e13ec"
+    },
+    "agentic-engineering": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/agentic-engineering/SKILL.md",
+      "computedHash": "6437efa9eac379b2701001d596610adf1f37afa02b8309145c9462c8e3cf9eff"
+    },
+    "ai-sdk": {
+      "source": "vercel/ai",
+      "sourceType": "github",
+      "skillPath": "skills/use-ai-sdk/SKILL.md",
+      "computedHash": "81af098a4ce6f0e323c1bd02b8e79df3bbaed57cbf1c4060f58ddc95de5545a1"
+    },
+    "prompt-engineering-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/llm-application-dev/skills/prompt-engineering-patterns/SKILL.md",
+      "computedHash": "4a8810c06525c95fd9370fdb3311d969fc89a53a196fe500b5b4f8529b21c9a7"
+    }
+  }
+}
