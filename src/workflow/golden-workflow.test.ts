@@ -1,5 +1,5 @@
 import { describe, expect, it, mock } from "bun:test"
-import { mkdtemp, readFile, writeFile } from "node:fs/promises"
+import { mkdtemp, readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { tmpdir } from "node:os"
 
