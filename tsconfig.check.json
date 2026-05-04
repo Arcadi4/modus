@@ -4,7 +4,17 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "rootDir": ".",
-    "types": ["bun"]
+    "types": [
+      "bun",
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts", "scripts/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "scripts/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.fixture.ts"
+  ]
 }

@@ -3,7 +3,9 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "strict": true,
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -13,8 +15,16 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "noEmitOnError": true,
-    "types": ["bun"]
+    "types": [
+      "bun",
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts", "src/**/*.fixture.ts"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.fixture.ts"
+  ]
 }
