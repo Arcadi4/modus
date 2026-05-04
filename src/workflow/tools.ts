@@ -168,6 +168,17 @@ function workspaceRoot(context: WorkflowToolContext): string {
 }
 
 function summarizePlan(plan: ParsedPlan) {
+  const allTasks = plan.waves.flatMap((wave) =>
+    wave.tasks.map((task) => ({
+      waveId: wave.waveId,
+      ...task,
+      mustDoStatus: summarizeTaskStatus(task.mustDo),
+    }))
+  )
+  const completedTasks = allTasks.filter((task) => task.mustDoStatus === "completed")
+  const pendingTasks = allTasks.filter((task) => task.mustDoStatus === "pending")
+  const nextTask = pendingTasks[0]
+
   return {
     schemaVersion: plan.schemaVersion,
     metadata: plan.metadata,
@@ -192,6 +203,23 @@ function summarizePlan(plan: ParsedPlan) {
     acceptanceCriteria: plan.acceptanceCriteria,
     qaScenarios: plan.qaScenarios,
     evidencePaths: plan.evidencePaths,
+    progressSummary: {
+      totalTasks: allTasks.length,
+      completedTaskCount: completedTasks.length,
+      pendingTaskCount: pendingTasks.length,
+      nextTask: nextTask
+        ? {
+            taskId: nextTask.taskId,
+            title: nextTask.title,
+            waveId: nextTask.waveId,
+            safeAction: `Execute task ${nextTask.taskId} ("${nextTask.title}") from Wave ${nextTask.waveId}.`,
+          }
+        : null,
+      recoveryMessage:
+        pendingTasks.length > 0
+          ? `Plan has ${completedTasks.length} completed task(s) and ${pendingTasks.length} pending task(s). Next safe action: execute task ${nextTask?.taskId} ("${nextTask?.title}"). Do not auto-resume; verify task state before continuing.`
+          : `Plan appears complete (${completedTasks.length}/${allTasks.length} tasks done). Verify all evidence before marking plan execution finished.`,
+    },
   }
 }
 
