@@ -60,20 +60,20 @@ describe("plan progress updates", () => {
     const filePath = await copyGoldenPlan()
 
     const plan = await markPlanTaskComplete(filePath, "1.1.1", {
-      evidenceRefs: [".sisyphus/evidence/task-7-plan-parse-update.txt"],
+      evidenceRefs: [".modus/evidence/task-7-plan-parse-update.txt"],
       now: new Date("2026-05-04T17:00:00.000Z"),
     })
     const updated = await readFile(filePath, "utf8")
 
     expect(updated).toContain(
-      "- [x] 1.1.1 Create `src/middleware/rate-limit.ts` with Redis-backed counter logic — Evidence: `.sisyphus/evidence/task-7-plan-parse-update.txt`",
+      "- [x] 1.1.1 Create `src/middleware/rate-limit.ts` with Redis-backed counter logic — Evidence: `.modus/evidence/task-7-plan-parse-update.txt`",
     )
     expect(updated).toContain(
-      "- Completed 2026-05-04T17:00:00.000Z: `.sisyphus/evidence/task-7-plan-parse-update.txt`",
+      "- Completed 2026-05-04T17:00:00.000Z: `.modus/evidence/task-7-plan-parse-update.txt`",
     )
     expect(plan.waves[0].tasks[0].mustDo[0].status).toBe("completed")
     expect(plan.waves[0].tasks[0].mustDo[0].evidenceRefs).toEqual([
-      ".sisyphus/evidence/task-7-plan-parse-update.txt",
+      ".modus/evidence/task-7-plan-parse-update.txt",
     ])
   })
 
@@ -82,10 +82,10 @@ describe("plan progress updates", () => {
 
     const [first, second] = await Promise.allSettled([
       markPlanTaskComplete(filePath, "1.1.1", {
-        evidenceRefs: [".sisyphus/evidence/task-7-concurrent-progress-a.txt"],
+        evidenceRefs: [".modus/evidence/task-7-concurrent-progress-a.txt"],
       }),
       markPlanTaskComplete(filePath, "1.1.2", {
-        evidenceRefs: [".sisyphus/evidence/task-7-concurrent-progress-b.txt"],
+        evidenceRefs: [".modus/evidence/task-7-concurrent-progress-b.txt"],
       }),
     ])
 

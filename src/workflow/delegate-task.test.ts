@@ -16,12 +16,12 @@ describe("delegateTask", () => {
       target: "explorer",
       task: "Find authentication patterns",
       context: {
-        planPath: ".sisyphus/plans/test-plan.md",
+        planPath: ".modus/plans/test-plan.md",
         taskId: "T1",
         taskTitle: "Explore auth patterns",
         expectedOutcome: "List of auth files and patterns",
         constraints: ["Do not modify files", "Do not run tests"],
-        evidencePath: ".sisyphus/evidence/task-1-exploration.txt",
+        evidencePath: ".modus/evidence/task-1-exploration.txt",
       },
       requiredTools: ["read", "grep"],
     }
@@ -38,12 +38,12 @@ describe("delegateTask", () => {
       target: "invalid-role",
       task: "Do something",
       context: {
-        planPath: ".sisyphus/plans/test.md",
+        planPath: ".modus/plans/test.md",
         taskId: "T1",
         taskTitle: "Test",
         expectedOutcome: "Done",
         constraints: [],
-        evidencePath: ".sisyphus/evidence/test.txt",
+        evidencePath: ".modus/evidence/test.txt",
       },
       requiredTools: [],
     }
