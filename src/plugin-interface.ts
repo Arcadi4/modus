@@ -1,12 +1,10 @@
-import { createModusContextTool } from "./context/harness-context-tool"
 import { createConfigHook } from "./hooks/config"
 import { createShellEnvHook } from "./hooks/shell-env"
+import { createWorkflowTools } from "./workflow/tools"
 
 export function createPluginInterface(context: { input: any; config: any }) {
   return {
-    tool: {
-      modus_context: createModusContextTool(context),
-    },
+    tool: createWorkflowTools(context),
     config: createConfigHook(),
     ...createShellEnvHook(context),
   }
