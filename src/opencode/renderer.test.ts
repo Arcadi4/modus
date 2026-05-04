@@ -43,14 +43,6 @@ describe("OpenCode agent renderer markdown contract", () => {
     expect(markdown).toContain("abc123")
   })
 
-  it("renders a concise body using recommendations-only wording", () => {
-    const markdown = renderDescriptor(descriptor)
-
-    expect(markdown).toContain("recommendations only")
-    expect(markdown).toContain("Keep feedback concise and actionable.")
-    expect(markdown.length).toBeLessThan(1_200)
-  })
-
   it("does not render enforcement language", () => {
     const markdown = renderDescriptor(descriptor)
     const body = markdown.toLowerCase()

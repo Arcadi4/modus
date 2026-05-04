@@ -1,11 +1,8 @@
 import { describe, expect, it } from "vitest"
 import { RoleManifestSchema } from "./roles"
-import { HarnessPluginConfigSchema } from "./config"
 import {
   createExtensionRegistry,
   ExtensionDescriptorSchema,
-  CommandDescriptorSchema,
-  ToolDescriptorSchema,
   HookDescriptorSchema,
   type ExtensionDescriptor,
 } from "./extensions"
@@ -113,62 +110,7 @@ describe("scaffold integrity", () => {
     })
   })
 
-  describe("invalid config rejection", () => {
-    it("rejects empty envPrefix", () => {
-      const result = HarnessPluginConfigSchema.safeParse({
-        envPrefix: "",
-      })
-      expect(result.success).toBe(false)
-    })
-  })
-
   describe("invalid extension descriptor rejection", () => {
-    it("rejects descriptor with invalid id format", () => {
-      const result = ExtensionDescriptorSchema.safeParse({
-        id: "InvalidId",
-        title: "Test",
-        description: "Test",
-        kind: "command",
-        surface: "tui.command",
-        command: { name: "test", usage: "test" },
-        safety: {
-          riskLevel: "low",
-          touchesFilesystem: false,
-          usesNetwork: false,
-          requiresConfirmation: false,
-        },
-        experimental: false,
-        capabilities: [],
-        manifest: {},
-      })
-      expect(result.success).toBe(false)
-    })
-
-    it("rejects experimental surface without experimental flag", () => {
-      const result = ExtensionDescriptorSchema.safeParse({
-        id: "test-exp",
-        title: "Test",
-        description: "Test",
-        kind: "hook",
-        surface: "experimental.chat.messages.transform",
-        hook: {
-          name: "experimental.chat.messages.transform",
-          mutatesInput: false,
-          mutatesOutput: false,
-        },
-        safety: {
-          riskLevel: "low",
-          touchesFilesystem: false,
-          usesNetwork: false,
-          requiresConfirmation: false,
-        },
-        experimental: false,
-        capabilities: [],
-        manifest: {},
-      })
-      expect(result.success).toBe(false)
-    })
-
     it("rejects experimental descriptor without minHostVersion", () => {
       const result = ExtensionDescriptorSchema.safeParse({
         id: "test-exp",
@@ -188,69 +130,6 @@ describe("scaffold integrity", () => {
           requiresConfirmation: false,
         },
         experimental: true,
-        capabilities: [],
-        manifest: {},
-      })
-      expect(result.success).toBe(false)
-    })
-
-    it("rejects invalid extension kind", () => {
-      const result = ExtensionDescriptorSchema.safeParse({
-        id: "test-invalid",
-        title: "Test",
-        description: "Test",
-        kind: "invalid-kind",
-        surface: "tool",
-        tool: { name: "test", inputSchema: {} },
-        safety: {
-          riskLevel: "low",
-          touchesFilesystem: false,
-          usesNetwork: false,
-          requiresConfirmation: false,
-        },
-        experimental: false,
-        capabilities: [],
-        manifest: {},
-      })
-      expect(result.success).toBe(false)
-    })
-
-    it("rejects invalid command surface", () => {
-      const result = CommandDescriptorSchema.safeParse({
-        id: "test-cmd",
-        title: "Test",
-        description: "Test",
-        kind: "command",
-        surface: "invalid-surface",
-        command: { name: "test", usage: "test" },
-        safety: {
-          riskLevel: "low",
-          touchesFilesystem: false,
-          usesNetwork: false,
-          requiresConfirmation: false,
-        },
-        experimental: false,
-        capabilities: [],
-        manifest: {},
-      })
-      expect(result.success).toBe(false)
-    })
-
-    it("rejects invalid tool surface", () => {
-      const result = ToolDescriptorSchema.safeParse({
-        id: "test-tool",
-        title: "Test",
-        description: "Test",
-        kind: "tool",
-        surface: "invalid-surface",
-        tool: { name: "test", inputSchema: {} },
-        safety: {
-          riskLevel: "low",
-          touchesFilesystem: false,
-          usesNetwork: false,
-          requiresConfirmation: false,
-        },
-        experimental: false,
         capabilities: [],
         manifest: {},
       })

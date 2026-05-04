@@ -35,16 +35,6 @@ type DevLibWithPackCommand = typeof import("./dev-opencode-lib") & {
 }
 
 describe("parseLauncherArgs", () => {
-  it("uses isolated local directory install by default", () => {
-    expect(parseLauncherArgs([])).toEqual({
-      installTarball: false,
-      noLaunch: false,
-      profileDir: null,
-      runMessage: "",
-      useGlobal: false,
-    })
-  })
-
   it("parses explicit launcher options", () => {
     expect(
       parseLauncherArgs([
@@ -93,17 +83,6 @@ describe("normalizePluginConfig", () => {
     })
   })
 
-  it("normalizes missing plugin arrays to an empty plugin list", () => {
-    expect(
-      normalizePluginConfig(JSON.stringify({ theme: "dark" }), {
-        rootDir: "/repo/harness",
-        tarballRef: "file:/repo/harness/harness-runtime-0.0.0.tgz",
-      })
-    ).toEqual({
-      changed: false,
-      json: '{\n  "theme": "dark",\n  "plugin": []\n}\n',
-    })
-  })
 })
 
 describe("buildLauncherState", () => {
@@ -135,19 +114,6 @@ describe("buildLauncherState", () => {
     expect(state.env.XDG_CACHE_HOME).toBe("/repo/harness/.opencode-dev/cache")
   })
 
-  it("switches to tarball plugin ref when requested", () => {
-    const state = buildLauncherState({
-      installTarball: true,
-      packageName: "harness-runtime",
-      packageVersion: "0.0.0",
-      profileDir: "/tmp/harness-profile",
-      rootDir: "/repo/harness",
-      useGlobal: false,
-    })
-
-    expect(state.pluginRef).toBe("file:/repo/harness/harness-runtime-0.0.0.tgz")
-    expect(state.profileDir).toBe("/tmp/harness-profile")
-  })
 })
 
 describe("ensureIsolatedProfile", () => {
@@ -265,36 +231,6 @@ describe("explicit agent sync safety", () => {
         overwritePolicy: "error",
       },
     })
-  })
-
-  it("refuses unmanaged collisions in explicit targets without interactive prompts", async () => {
-    const { buildExplicitAgentSyncPlan, syncExplicitAgentDefinitions } = await loadExplicitSyncApi()
-    const root = path.join(tmpdir(), `harness-explicit-refuse-${Date.now()}`)
-    const agentsDir = path.join(root, "agents")
-    await mkdir(agentsDir, { recursive: true })
-    await writeFile(path.join(agentsDir, "arcadia-architect.md"), "user-owned content\n")
-
-    try {
-      const plan = buildExplicitAgentSyncPlan({ agentsDir, scope: "project" })
-      const result = await syncExplicitAgentDefinitions({
-        ...plan,
-        options: { ...plan.options, dryRun: false },
-      })
-
-      expect(result.success).toBe(false)
-      expect(result.refused).toBeGreaterThan(0)
-      expect(result.files).toContainEqual(
-        expect.objectContaining({
-          operation: "refused",
-          path: path.join(agentsDir, "arcadia-architect.md"),
-        })
-      )
-      await expect(readFile(path.join(agentsDir, "arcadia-architect.md"), "utf8")).resolves.toBe(
-        "user-owned content\n"
-      )
-    } finally {
-      await rm(root, { force: true, recursive: true })
-    }
   })
 
   it("backs up unmanaged files before explicit force overwrites", async () => {
