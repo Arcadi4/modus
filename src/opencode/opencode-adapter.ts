@@ -1,6 +1,38 @@
 import { roleManifestList } from "../roles"
 import type { RoleManifest } from "../roles/schema"
+import {
+  architectWorkflowPrompt,
+  executorWorkflowPrompt,
+  plannerWorkflowPrompt,
+} from "../prompts/workflow"
 import type { GeneratedFileMeta } from "./types"
+
+const WORKFLOW_AGENT_DEFINITIONS = [
+  {
+    id: "workflow-architect",
+    roleId: "workflow:architect",
+    description:
+      "Shapes user goals into coherent designs through critical dialogue, context gathering, and explicit tradeoffs.",
+    prompt: architectWorkflowPrompt,
+  },
+  {
+    id: "workflow-planner",
+    roleId: "workflow:planner",
+    description:
+      "Turns approved designs into executable plans with atomic tasks, dependencies, and verification evidence.",
+    prompt: plannerWorkflowPrompt,
+  },
+  {
+    id: "workflow-executor",
+    roleId: "workflow:executor",
+    description:
+      "Executes existing plans in verified units by delegating work, checking acceptance criteria, and recording evidence.",
+    prompt: executorWorkflowPrompt,
+  },
+] as const
+
+export const WORKFLOW_AGENT_COUNT = WORKFLOW_AGENT_DEFINITIONS.length
+export const EXPECTED_OPENCODE_DESCRIPTOR_COUNT = roleManifestList.length + WORKFLOW_AGENT_COUNT
 
 /**
  * Descriptor for a generated OpenCode agent.
@@ -21,6 +53,8 @@ export interface OpenCodeAgentDescriptor {
     tools?: string[]
     guidance?: string
   }
+  /** Full OpenCode prompt content for prompt-backed workflow agents */
+  prompt?: string
   /** Source manifest metadata */
   source: GeneratedFileMeta
 }
@@ -30,7 +64,28 @@ export interface OpenCodeAgentDescriptor {
  * Each descriptor uses the role name directly without brand prefix.
  */
 export function generateOpenCodeDescriptors(): OpenCodeAgentDescriptor[] {
-  return roleManifestList.map((manifest) => mapManifestToDescriptor(manifest))
+  return [
+    ...roleManifestList.map((manifest) => mapManifestToDescriptor(manifest)),
+    ...generateWorkflowAgentDescriptors(),
+  ]
+}
+
+export function generateWorkflowAgentDescriptors(): OpenCodeAgentDescriptor[] {
+  return WORKFLOW_AGENT_DEFINITIONS.map((definition) => ({
+    id: definition.id,
+    roleId: definition.roleId,
+    description: definition.description,
+    category: "primary",
+    recommendations: {
+      guidance: "Follow the embedded workflow prompt for this core workflow agent.",
+    },
+    prompt: definition.prompt,
+    source: {
+      hash: generateWorkflowHash(definition),
+      managedMarker: "<!-- MANAGED BY MODUS -->",
+      sourceRole: definition.roleId,
+    },
+  }))
 }
 
 /**
@@ -63,6 +118,14 @@ function mapManifestToDescriptor(manifest: RoleManifest): OpenCodeAgentDescripto
  */
 function generateHash(manifest: RoleManifest): string {
   const str = `${manifest.id as string}:${manifest.name}:${manifest.description}`
+  return hashString(str)
+}
+
+function generateWorkflowHash(definition: (typeof WORKFLOW_AGENT_DEFINITIONS)[number]): string {
+  return hashString(`${definition.roleId}:${definition.id}:${definition.description}:${definition.prompt}`)
+}
+
+function hashString(str: string): string {
   let hash = 0
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i)
@@ -73,14 +136,14 @@ function generateHash(manifest: RoleManifest): string {
 }
 
 /**
- * Validates descriptor count matches expected 15 (6 primary + 9 subagents).
+ * Validates descriptor count matches expected 18 (15 role manifests + 3 workflow agents).
  */
 export function validateDescriptorCount(descriptors: OpenCodeAgentDescriptor[]): {
   valid: boolean
   actual: number
   expected: number
 } {
-  const expected = 15
+  const expected = EXPECTED_OPENCODE_DESCRIPTOR_COUNT
   const actual = descriptors.length
   return {
     valid: actual === expected,
@@ -129,19 +192,5 @@ export function validateSafeIds(descriptors: OpenCodeAgentDescriptor[]): {
 export function verifyDeterministic(): boolean {
   const first = generateOpenCodeDescriptors()
   const second = generateOpenCodeDescriptors()
-
-  if (first.length !== second.length) {
-    return false
-  }
-
-  for (let i = 0; i < first.length; i++) {
-    if (first[i].id !== second[i].id) {
-      return false
-    }
-    if (first[i].description !== second[i].description) {
-      return false
-    }
-  }
-
-  return true
+  return JSON.stringify(first) === JSON.stringify(second)
 }

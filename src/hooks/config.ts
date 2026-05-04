@@ -1,5 +1,7 @@
 import type { Config } from "@opencode-ai/plugin"
 
+import { generateWorkflowAgentDescriptors } from "../opencode/opencode-adapter"
+
 /**
  * Default OpenCode agents to remove when this plugin is injected.
  * OpenCode's agent merge logic (state() function) deletes any agent
@@ -11,15 +13,13 @@ const DEFAULT_OPENCODE_AGENTS = ["general", "plan", "build", "explore"] as const
 
 export function createConfigHook() {
   return async (config: Config): Promise<void> => {
-    if (!config.agent) {
-      return
-    }
+    const agents = (config.agent ??= {})
 
     for (const name of DEFAULT_OPENCODE_AGENTS) {
-      const agent = config.agent[name]
+      const agent = agents[name]
 
       if (agent === undefined) {
-        config.agent[name] = { disable: true }
+        agents[name] = { disable: true }
         continue
       }
 
@@ -28,7 +28,20 @@ export function createConfigHook() {
         continue
       }
 
-      config.agent[name] = { disable: true }
+      agents[name] = { disable: true }
+    }
+
+    for (const descriptor of generateWorkflowAgentDescriptors()) {
+      const agentName = descriptor.id.replace(/^workflow-/, "")
+      const existing = agents[agentName]
+      const existingConfig = typeof existing === "object" && existing !== null ? existing : {}
+
+      agents[agentName] = {
+        ...existingConfig,
+        description: descriptor.description,
+        mode: descriptor.category,
+        prompt: descriptor.prompt,
+      }
     }
   }
 }

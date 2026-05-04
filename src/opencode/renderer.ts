@@ -35,5 +35,9 @@ export function renderAgentDefinition(descriptor: OpenCodeAgentDescriptor): stri
     lines.push("", "Guidance:", recommendations.guidance)
   }
 
+  if (descriptor.prompt) {
+    lines.push("", "## Prompt", "", descriptor.prompt.trimEnd())
+  }
+
   return `${lines.join("\n")}\n`
 }

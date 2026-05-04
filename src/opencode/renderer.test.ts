@@ -51,6 +51,16 @@ describe("OpenCode agent renderer markdown contract", () => {
       expect(body).not.toContain(forbidden)
     }
   })
+
+  it("renders prompt content for prompt-backed workflow descriptors", () => {
+    const markdown = renderDescriptor({
+      ...descriptor,
+      id: "workflow-architect",
+      prompt: "# Architect\n\nWorkflow prompt body.",
+    })
+
+    expect(markdown).toContain("## Prompt\n\n# Architect\n\nWorkflow prompt body.")
+  })
 })
 
 function renderDescriptor(value: OpenCodeAgentDescriptor): string {

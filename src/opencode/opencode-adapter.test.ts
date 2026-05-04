@@ -1,6 +1,9 @@
 import { describe, expect, it } from "bun:test"
 import {
+  EXPECTED_OPENCODE_DESCRIPTOR_COUNT,
   generateOpenCodeDescriptors,
+  generateWorkflowAgentDescriptors,
+  validateDescriptorCount,
   validateSafeIds,
   verifyDeterministic,
 } from "./opencode-adapter"
@@ -17,5 +20,33 @@ describe("opencode-adapter", () => {
   it("generates deterministic output across calls", () => {
     const result = verifyDeterministic()
     expect(result).toBe(true)
+  })
+
+  it("accounts for role manifest descriptors plus core workflow descriptors", () => {
+    const descriptors = generateOpenCodeDescriptors()
+    const result = validateDescriptorCount(descriptors)
+
+    expect(result).toEqual({ valid: true, actual: 18, expected: 18 })
+    expect(descriptors).toHaveLength(EXPECTED_OPENCODE_DESCRIPTOR_COUNT)
+  })
+
+  it("appends prompt-backed workflow descriptors after existing role manifests", () => {
+    const descriptors = generateOpenCodeDescriptors()
+    const workflowDescriptors = generateWorkflowAgentDescriptors()
+
+    expect(workflowDescriptors.map((descriptor) => descriptor.id)).toEqual([
+      "workflow-architect",
+      "workflow-planner",
+      "workflow-executor",
+    ])
+    expect(descriptors.slice(-3)).toEqual(workflowDescriptors)
+    expect(descriptors.find((descriptor) => descriptor.id === "architect")?.prompt).toBeUndefined()
+
+    expect(workflowDescriptors[0].roleId).toBe("workflow:architect")
+    expect(workflowDescriptors[0].prompt).toContain("# Architect")
+    expect(workflowDescriptors[1].roleId).toBe("workflow:planner")
+    expect(workflowDescriptors[1].prompt).toContain("# Planner")
+    expect(workflowDescriptors[2].roleId).toBe("workflow:executor")
+    expect(workflowDescriptors[2].prompt).toContain("# Executor")
   })
 })
