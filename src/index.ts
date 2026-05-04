@@ -1,9 +1,7 @@
 import type { Plugin } from "@opencode-ai/plugin"
 
 import { loadConfig } from "./config/index"
-import { createHarnessContextTool } from "./context/harness-context-tool"
-import { createConfigHook } from "./hooks/config"
-import { createShellEnvHook } from "./hooks/shell-env"
+import { createPluginInterface } from "./plugin-interface"
 
 export const HarnessPlugin: Plugin = async (input) => {
   const config = loadConfig()
@@ -11,11 +9,7 @@ export const HarnessPlugin: Plugin = async (input) => {
 
   return {
     name: "harness-runtime",
-    tool: {
-      harness_context: createHarnessContextTool(context),
-    },
-    config: createConfigHook(),
-    ...createShellEnvHook(context),
+    ...createPluginInterface(context),
   }
 }
 
