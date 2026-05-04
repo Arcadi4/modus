@@ -3,8 +3,8 @@ import type { Plugin } from "@opencode-ai/plugin"
 import { loadConfig } from "./config/index"
 import { createShellEnvHook } from "./hooks/shell-env"
 
-export { HarnessPluginConfigSchema, loadConfig } from "./config/index"
-export type { HarnessPluginConfig } from "./config/index"
+export { ModusPluginConfigSchema, loadConfig } from "./config/index"
+export type { ModusPluginConfig } from "./config/index"
 export { getRoleManifest, roleManifestList, roleManifests } from "./roles"
 export type { RoleManifest, RoleManifestInput } from "./roles"
 export {
@@ -100,7 +100,7 @@ export const createServerPlugin = async (input: Parameters<Plugin>[0]) => {
   const context = { input, config }
 
   return {
-    name: "harness-runtime/server",
+    name: "modus/server",
     ...createShellEnvHook(context),
   }
 }

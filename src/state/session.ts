@@ -1,7 +1,7 @@
 import type { EvidenceId, SessionId, TaskId } from "../types/ids"
 
 export const SESSION_STATE_VERSION = 1
-export const SESSION_STATE_NAMESPACE = "harness.session"
+export const SESSION_STATE_NAMESPACE = "modus.session"
 
 export interface SessionStateMetadata {
   readonly version: typeof SESSION_STATE_VERSION

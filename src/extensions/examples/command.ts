@@ -1,10 +1,10 @@
 import type { CommandDescriptor } from "../schema"
 
 export const exampleCommandDescriptor: CommandDescriptor = {
-  id: "harness.command.show-context",
+  id: "modus.command.show-context",
   kind: "command",
   surface: "tui.command",
-  title: "Show Harness Context",
+  title: "Show Modus Context",
   description: "Expose a minimal command descriptor for future TUI registration.",
   capabilities: [
     {
@@ -22,7 +22,7 @@ export const exampleCommandDescriptor: CommandDescriptor = {
   experimental: false,
   manifest: {},
   command: {
-    name: "harness.show-context",
-    usage: "Open the harness context command from a host command surface.",
+    name: "modus.show-context",
+    usage: "Open the modus context command from a host command surface.",
   },
 }

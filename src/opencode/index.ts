@@ -19,7 +19,7 @@ export type { Renderer } from "./renderer"
 export {
   generateOpenCodeDescriptors,
   validateDescriptorCount,
-  validateHarnessPrefix,
+  validateModusPrefix,
   validateSafeIds,
   verifyDeterministic,
 } from "./opencode-adapter"

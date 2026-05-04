@@ -1,10 +1,10 @@
 import type { ToolDescriptor } from "../schema"
 
 export const exampleToolDescriptor: ToolDescriptor = {
-  id: "harness.tool.harness-context",
+  id: "modus.tool.modus-context",
   kind: "tool",
   surface: "tool",
-  title: "Harness Context Tool",
+  title: "Modus Context Tool",
   description: "Describes the existing context tool without implementing execution behavior.",
   capabilities: [
     {
@@ -22,7 +22,7 @@ export const exampleToolDescriptor: ToolDescriptor = {
   experimental: false,
   manifest: {},
   tool: {
-    name: "harness_context",
+    name: "modus_context",
     inputSchema: {},
   },
 }

@@ -2,10 +2,10 @@ import { access, mkdir, readFile, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 
 /**
- * Marker indicating the file is managed by harness.
+ * Marker indicating the file is managed by modus.
  * Used for idempotency and tracking.
  */
-const MANAGED_MARKER = "<!-- MANAGED BY HARNESS: DCP Plugin -->"
+const MANAGED_MARKER = "<!-- MANAGED BY MODUS: DCP Plugin -->"
 
 /**
  * Default DCP submodule path relative to project root.
@@ -26,7 +26,7 @@ export type DCPInjectionResult = {
  * Options for DCP injection.
  */
 export type DCPInjectorOptions = {
-  /** The harness-managed config directory (e.g., {profileDir}/config/opencode) */
+  /** The modus-managed config directory (e.g., {profileDir}/config/opencode) */
   configDir: string
   /** Optional override for DCP submodule path (relative to project root) */
   submodulePath?: string
@@ -91,16 +91,16 @@ async function readTuiConfig(configPath: string): Promise<TuiConfig> {
 }
 
 /**
- * Injects DCP plugin reference into harness-managed OpenCode tui.json config.
+ * Injects DCP plugin reference into modus-managed OpenCode tui.json config.
  *
  * This function:
- * 1. Reads the tui.json from the harness-managed config directory
+ * 1. Reads the tui.json from the modus-managed config directory
  * 2. Checks if DCP plugin reference already exists (idempotency)
  * 3. If not present, adds the plugin reference as an absolute path
  * 4. Writes the updated config with a managed marker comment
  * 5. Returns status indicating injection, skip, or warning
  *
- * IMPORTANT: This ONLY modifies the harness-managed isolated profile config,
+ * IMPORTANT: This ONLY modifies the modus-managed isolated profile config,
  * never the global OpenCode config (~/.config/opencode) or user project config.
  *
  * @param options - Injection options including configDir
@@ -184,7 +184,7 @@ export async function injectDCP(options: DCPInjectorOptions): Promise<DCPInjecti
 }
 
 /**
- * Removes DCP plugin reference from harness-managed tui.json config.
+ * Removes DCP plugin reference from modus-managed tui.json config.
  *
  * Used for cleanup/uninstall operations. Idempotent - safe to call
  * even if DCP is not present.

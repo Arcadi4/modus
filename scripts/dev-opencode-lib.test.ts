@@ -85,10 +85,10 @@ describe("normalizePluginConfig", () => {
 })
 
 describe("buildLauncherState", () => {
-  it("builds isolated profile paths for harness-runtime", () => {
+  it("builds isolated profile paths for modus", () => {
     const state = buildLauncherState({
       installTarball: false,
-      packageName: "harness-runtime",
+      packageName: "modus",
       packageVersion: "0.0.0",
       profileDir: null,
       rootDir: "/repo/harness",
@@ -133,7 +133,7 @@ describe("ensureIsolatedProfile", () => {
     try {
       const state = buildLauncherState({
         installTarball: false,
-        packageName: "harness-runtime",
+        packageName: "modus",
         packageVersion: "0.0.0",
         profileDir,
         rootDir: path.join(root, "repo"),
@@ -172,7 +172,7 @@ describe("syncAgentDefinitions", () => {
     try {
       const state = buildLauncherState({
         installTarball: false,
-        packageName: "harness-runtime",
+        packageName: "modus",
         packageVersion: "0.0.0",
         profileDir: null,
         rootDir: root,
@@ -235,7 +235,7 @@ describe("explicit agent sync safety", () => {
     const { buildExplicitAgentSyncPlan, syncExplicitAgentDefinitions } = await loadExplicitSyncApi()
     const root = path.join(tmpdir(), `harness-explicit-force-${Date.now()}`)
     const agentsDir = path.join(root, "agents")
-    const targetFile = path.join(agentsDir, "harness-architect.md")
+    const targetFile = path.join(agentsDir, "architect.md")
     await mkdir(agentsDir, { recursive: true })
     await writeFile(targetFile, "user-owned content\n")
 

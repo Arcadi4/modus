@@ -2,7 +2,7 @@ import type { EvidenceId, SessionId, TaskId } from "../types/ids"
 import type { SessionRecord } from "./session"
 
 export const BACKGROUND_STATE_VERSION = 1
-export const BACKGROUND_STATE_NAMESPACE = "harness.background"
+export const BACKGROUND_STATE_NAMESPACE = "modus.background"
 
 export interface BackgroundStateMetadata {
   readonly version: typeof BACKGROUND_STATE_VERSION

@@ -41,8 +41,8 @@ const DcpSettingsSchema = z.object({
   detectionPolicy: DcpDetectionPolicySchema,
 })
 
-export const HarnessPluginConfigSchema = z.object({
-  envPrefix: z.string().min(1).default("HARNESS"),
+export const ModusPluginConfigSchema = z.object({
+  envPrefix: z.string().min(1).default("MODUS"),
   roleProfiles: z.record(z.string(), RoleProfileSettingsSchema).optional(),
   promptVerbosity: PromptVerbositySchema.default("normal"),
   extensionToggles: z.record(z.string(), ExtensionToggleSettingsSchema).optional(),
@@ -50,4 +50,4 @@ export const HarnessPluginConfigSchema = z.object({
   modelCapabilities: ModelCapabilitiesSchema.optional(),
 })
 
-export type HarnessPluginConfig = z.infer<typeof HarnessPluginConfigSchema>
+export type ModusPluginConfig = z.infer<typeof ModusPluginConfigSchema>

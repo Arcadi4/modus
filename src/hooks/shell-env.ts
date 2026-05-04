@@ -1,10 +1,10 @@
 import type { PluginInput } from "@opencode-ai/plugin"
 
-import type { HarnessPluginConfig } from "../config"
+import type { ModusPluginConfig } from "../config"
 
 export type ShellEnvHookContext = {
   input: PluginInput
-  config: HarnessPluginConfig
+  config: ModusPluginConfig
 }
 
 export function createShellEnvHook(context: ShellEnvHookContext) {

@@ -1,8 +1,8 @@
-import type { HarnessPluginConfig } from "./schema"
-import { HarnessPluginConfigSchema } from "./schema"
+import type { ModusPluginConfig } from "./schema"
+import { ModusPluginConfigSchema } from "./schema"
 
-export function loadConfig(): HarnessPluginConfig {
-  const parsed = HarnessPluginConfigSchema.parse({})
+export function loadConfig(): ModusPluginConfig {
+  const parsed = ModusPluginConfigSchema.parse({})
   return {
     ...parsed,
     modelCapabilities: parsed.modelCapabilities ?? {

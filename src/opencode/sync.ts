@@ -5,7 +5,7 @@ import { renderAgentDefinition } from "./renderer"
 import type { OpenCodeAgentDescriptor } from "./opencode-adapter"
 import type { SyncOptions, SyncResult, SyncFileResult, TargetConfig } from "./types"
 
-const DEFAULT_MANAGED_MARKER = "<!-- MANAGED BY HARNESS -->"
+const DEFAULT_MANAGED_MARKER = "<!-- MANAGED BY MODUS -->"
 
 export interface SyncEngine {
   sync(target: TargetConfig, options: SyncOptions): Promise<SyncResult>

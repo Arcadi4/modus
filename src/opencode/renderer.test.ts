@@ -6,12 +6,12 @@ import type { GeneratedFileMeta } from "./types"
 
 const source: GeneratedFileMeta = {
   hash: "abc123",
-  managedMarker: "<!-- MANAGED BY HARNESS -->",
+  managedMarker: "<!-- MANAGED BY MODUS -->",
   sourceRole: "tester",
 }
 
 const descriptor: OpenCodeAgentDescriptor = {
-  id: "harness-tester",
+  id: "tester",
   roleId: "role:tester",
   description: "Checks implementation behavior without taking ownership.",
   category: "subagent",
@@ -38,7 +38,7 @@ describe("OpenCode agent renderer markdown contract", () => {
   it("renders managed header with source role id and hash", () => {
     const markdown = renderDescriptor(descriptor)
 
-    expect(markdown).toContain("<!-- MANAGED BY HARNESS -->")
+    expect(markdown).toContain("<!-- MANAGED BY MODUS -->")
     expect(markdown).toContain("role:tester")
     expect(markdown).toContain("abc123")
   })

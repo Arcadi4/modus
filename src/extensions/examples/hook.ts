@@ -1,7 +1,7 @@
 import type { HookDescriptor } from "../schema"
 
 export const exampleHookDescriptor: HookDescriptor = {
-  id: "harness.hook.shell-env",
+  id: "modus.hook.shell-env",
   kind: "hook",
   surface: "shell.env",
   title: "Shell Environment Hook",

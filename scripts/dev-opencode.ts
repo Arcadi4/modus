@@ -15,7 +15,7 @@ import {
 } from "./dev-opencode-lib.ts"
 
 function printUsage(): void {
-  console.log(`Package harness-runtime, install it into OpenCode, then launch OpenCode.
+  console.log(`Package modus, install it into OpenCode, then launch OpenCode.
 
 Usage:
   bun ./scripts/dev-opencode.ts [options]

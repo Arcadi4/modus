@@ -7,7 +7,7 @@ import type { GeneratedFileMeta } from "./types"
  * Renders capability/profile data as recommendation metadata, not policy enforcement.
  */
 export interface OpenCodeAgentDescriptor {
-  /** Unique identifier with harness-* prefix to avoid native agent name collisions */
+  /** Unique identifier without brand prefix to avoid native agent name collisions */
   id: string
   /** Original role identifier */
   roleId: string
@@ -27,7 +27,7 @@ export interface OpenCodeAgentDescriptor {
 
 /**
  * Generates OpenCode agent descriptors from role manifests.
- * Each descriptor uses harness-* prefix to avoid native agent name collisions.
+ * Each descriptor uses the role name directly without brand prefix.
  */
 export function generateOpenCodeDescriptors(): OpenCodeAgentDescriptor[] {
   return roleManifestList.map((manifest) => mapManifestToDescriptor(manifest))
@@ -37,7 +37,7 @@ export function generateOpenCodeDescriptors(): OpenCodeAgentDescriptor[] {
  * Maps a single role manifest to an OpenCode agent descriptor.
  */
 function mapManifestToDescriptor(manifest: RoleManifest): OpenCodeAgentDescriptor {
-  const id = `harness-${manifest.name}`
+  const id = manifest.name
 
   return {
     id,
@@ -51,7 +51,7 @@ function mapManifestToDescriptor(manifest: RoleManifest): OpenCodeAgentDescripto
     },
     source: {
       hash: generateHash(manifest),
-      managedMarker: "<!-- MANAGED BY HARNESS -->",
+      managedMarker: "<!-- MANAGED BY MODUS -->",
       sourceRole: manifest.name,
     },
   }
@@ -90,13 +90,15 @@ export function validateDescriptorCount(descriptors: OpenCodeAgentDescriptor[]):
 }
 
 /**
- * Validates all descriptor IDs have harness- prefix.
+ * Validates all descriptor IDs contain no brand prefix.
  */
-export function validateHarnessPrefix(descriptors: OpenCodeAgentDescriptor[]): {
+export function validateModusPrefix(descriptors: OpenCodeAgentDescriptor[]): {
   valid: boolean
   invalidIds: string[]
 } {
-  const invalidIds = descriptors.filter((d) => !d.id.startsWith("harness-")).map((d) => d.id)
+  const invalidIds = descriptors
+    .filter((d) => d.id.startsWith("harness-") || d.id.startsWith("modus-"))
+    .map((d) => d.id)
 
   return {
     valid: invalidIds.length === 0,

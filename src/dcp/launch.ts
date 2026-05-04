@@ -1,4 +1,4 @@
-import type { HarnessPluginConfig } from "../config"
+import type { ModusPluginConfig } from "../config"
 import { ensureDCPBuild, type DCPBuildStatus } from "./build"
 import { detectDCP, type DCPDetectionResult } from "./detector"
 import { logDCPDecision } from "./diagnostics"
@@ -28,7 +28,7 @@ export type DCPPrepareResult =
     }
 
 export type DCPPrepareOptions = {
-  config: HarnessPluginConfig
+  config: ModusPluginConfig
   configDir: string
   rootDir?: string
 }
@@ -105,7 +105,7 @@ export async function prepareDCP(options: DCPPrepareOptions): Promise<DCPPrepare
     return result
   }
 
-  // Step 4: Inject DCP into harness-managed profile
+  // Step 4: Inject DCP into modus-managed profile
   const injectionResult = await injectDCP({
     configDir,
     rootDir,

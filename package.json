@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "harness-runtime",
+  "name": "modus",
   "version": "0.0.0",
-  "description": "Runnable OpenCode plugin scaffold for harness",
+  "description": "The OpenCode plugin for engineers that engineers your workflow, context window, and multi-agent orchestration.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

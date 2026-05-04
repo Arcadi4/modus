@@ -22,7 +22,7 @@ export type TargetConfig = z.infer<typeof TargetConfigSchema>
  */
 export const GeneratedFileMetaSchema = z.object({
   hash: z.string().min(1),
-  managedMarker: z.string().default("<!-- MANAGED BY HARNESS -->"),
+  managedMarker: z.string().default("<!-- MANAGED BY MODUS -->"),
   sourceRole: z.string().optional(),
   generatedAt: z.string().optional(),
 })

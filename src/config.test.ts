@@ -1,10 +1,10 @@
 import { describe, it, expect } from "bun:test"
-import { HarnessPluginConfigSchema } from "./config"
+import { ModusPluginConfigSchema } from "./config"
 
-describe("HarnessPluginConfig", () => {
+describe("ModusPluginConfig", () => {
   describe("invalid config rejection", () => {
     it("rejects invalid promptVerbosity value", () => {
-      const result = HarnessPluginConfigSchema.safeParse({ promptVerbosity: "debug" })
+      const result = ModusPluginConfigSchema.safeParse({ promptVerbosity: "debug" })
       expect(result.success).toBe(false)
       if (!result.success) {
         expect(result.error.issues[0].message).toContain("promptVerbosity must be")
@@ -12,7 +12,7 @@ describe("HarnessPluginConfig", () => {
     })
 
     it("rejects non-positive maxTokens", () => {
-      const result = HarnessPluginConfigSchema.safeParse({
+      const result = ModusPluginConfigSchema.safeParse({
         modelCapabilities: { maxTokens: 0 },
       })
       expect(result.success).toBe(false)

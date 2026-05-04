@@ -1,16 +1,16 @@
 import { tool } from "@opencode-ai/plugin"
 import type { PluginInput } from "@opencode-ai/plugin"
 
-import type { HarnessPluginConfig } from "../config"
+import type { ModusPluginConfig } from "../config"
 
-export type HarnessFeatureContext = {
+export type ModusFeatureContext = {
   input: PluginInput
-  config: HarnessPluginConfig
+  config: ModusPluginConfig
 }
 
-export function renderHarnessContext(context: HarnessFeatureContext): string {
+export function renderModusContext(context: ModusFeatureContext): string {
   return [
-    "# Harness Context",
+    "# Modus Context",
     "",
     `Project ID: ${context.input.project.id}`,
     `Project Root: ${context.input.directory}`,
@@ -19,12 +19,12 @@ export function renderHarnessContext(context: HarnessFeatureContext): string {
   ].join("\n")
 }
 
-export function createHarnessContextTool(context: HarnessFeatureContext) {
+export function createModusContextTool(context: ModusFeatureContext) {
   return tool({
-    description: "Show the current harness plugin context.",
+    description: "Show the current modus plugin context.",
     args: {},
     async execute() {
-      return renderHarnessContext(context)
+      return renderModusContext(context)
     },
   })
 }

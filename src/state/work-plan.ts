@@ -1,7 +1,7 @@
 import type { EvidenceId, SessionId, TaskId } from "../types/ids"
 
 export const WORK_PLAN_STATE_VERSION = 1
-export const WORK_PLAN_STATE_NAMESPACE = "harness.work-plan"
+export const WORK_PLAN_STATE_NAMESPACE = "modus.work-plan"
 
 export interface WorkPlanStateMetadata {
   readonly version: typeof WORK_PLAN_STATE_VERSION

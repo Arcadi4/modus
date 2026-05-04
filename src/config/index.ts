@@ -1,3 +1,3 @@
-export { HarnessPluginConfigSchema } from "./schema"
+export { ModusPluginConfigSchema } from "./schema"
 export { loadConfig } from "./loader"
-export type { HarnessPluginConfig } from "./schema"
+export type { ModusPluginConfig } from "./schema"
