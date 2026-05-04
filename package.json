@@ -22,7 +22,6 @@
     "lint:fix": "git ls-files -z --cached --others --exclude-standard 'src/**/*.ts' 'scripts/**/*.ts' | xargs -0 oxlint --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest",
     "build": "rm -rf dist && $npm_execpath build src/index.ts --outdir dist --target bun --format esm && $npm_execpath build src/server.ts --outdir dist --target bun --format esm && $npm_execpath build src/tui.ts --outdir dist --target bun --format esm && tsc --emitDeclarationOnly",
     "verify": "$npm_execpath run format:check && $npm_execpath run lint && $npm_execpath run typecheck && $npm_execpath run test && $npm_execpath run build",
     "clean": "rm -rf dist",
