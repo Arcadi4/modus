@@ -1,4 +1,4 @@
-import { createModusContextTool } from "./context/modus-context-tool"
+import { createModusContextTool } from "./context/harness-context-tool"
 import { createConfigHook } from "./hooks/config"
 import { createShellEnvHook } from "./hooks/shell-env"
 
