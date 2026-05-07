@@ -1,7 +1,9 @@
 import { describe, expect, it } from "bun:test"
 import {
+  EXPECTED_OPENCODE_DESCRIPTOR_COUNT,
   generateOpenCodeDescriptors,
   generateWorkflowAgentDescriptors,
+  validateDescriptorCount,
   validateSafeIds,
   verifyDeterministic,
 } from "./opencode-adapter"
@@ -18,6 +20,14 @@ describe("opencode-adapter", () => {
   it("generates deterministic output across calls", () => {
     const result = verifyDeterministic()
     expect(result).toBe(true)
+  })
+
+  it("keeps the generated descriptor count expected by sync consumers", () => {
+    const descriptors = generateOpenCodeDescriptors()
+    const result = validateDescriptorCount(descriptors)
+
+    expect(result).toEqual({ valid: true, actual: 18, expected: 18 })
+    expect(descriptors).toHaveLength(EXPECTED_OPENCODE_DESCRIPTOR_COUNT)
   })
 
   it("appends prompt-backed workflow descriptors after existing role manifests", () => {
