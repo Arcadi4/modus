@@ -11,4 +11,3 @@ export {
 
 export { delegateTask } from "./delegate-task"
 export { createDelegateTaskTool } from "./delegation-tool"
-export { delegateTaskToolDescriptor } from "./delegation-descriptor"

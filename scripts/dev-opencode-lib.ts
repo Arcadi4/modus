@@ -267,17 +267,12 @@ function renderAgentDefinition(manifest: RoleManifest): string {
 description: ${quoteYamlString(manifest.description)}
 mode: ${manifest.category}
 ---
-# ${manifest.neutralName}
+# ${manifest.displayName}
 
 ${manifest.description}
 
-## Recommended capabilities
-- Reasoning: ${manifest.recommendedCapabilities.reasoningLevel}
-- Tool use: ${manifest.recommendedCapabilities.toolUseLevel}
-- Context: ${manifest.recommendedCapabilities.contextWindow}
-
 ## Guidance
-${manifest.delegationGuidance.guidance}
+${manifest.guidance}
 
 ## Scope notes
 - Skill and tool entries in the scaffold are recommendations, not enforced permissions.

@@ -30,42 +30,15 @@ const RoleIdSchema = z
   .refine(isRoleId, { message: "role id must be a non-empty string" })
   .transform((value) => createRoleId(value))
 
-const CapabilityRecommendationSchema = z.object({
-  modalities: z.array(z.enum(["text", "vision", "audio", "code"])).default(["text"]),
-  reasoningLevel: z.enum(["none", "basic", "extended", "deep"]),
-  toolUseLevel: z.enum(["none", "limited", "full"]),
-  contextWindow: z.enum(["standard", "large", "very-large"]).default("standard"),
-})
-
-const SkillExposureMetadataSchema = z.object({
-  mode: z.literal("metadata-only").default("metadata-only"),
-  recommendedSkills: z.array(z.string()).default([]),
-  notes: z.string().optional(),
-})
-
-const ToolExposureMetadataSchema = z.object({
-  mode: z.literal("metadata-only").default("metadata-only"),
-  recommendedTools: z.array(z.string()).default([]),
-  notes: z.string().optional(),
-})
-
-const DelegationGuidanceSchema = z.object({
-  canDelegate: z.boolean().default(false),
-  delegatesTo: z.array(RoleNameSchema).default([]),
-  acceptsDelegationFrom: z.array(RoleNameSchema).default([]),
-  guidance: z.string().min(1),
-})
-
 export const RoleManifestSchema = z.object({
   id: RoleIdSchema,
   name: RoleNameSchema,
-  neutralName: z.string().min(1),
+  displayName: z.string().min(1),
   category: RoleCategorySchema,
   description: z.string().min(1),
-  recommendedCapabilities: CapabilityRecommendationSchema,
-  defaultSkillExposure: SkillExposureMetadataSchema,
-  defaultToolExposure: ToolExposureMetadataSchema,
-  delegationGuidance: DelegationGuidanceSchema,
+  recommendedSkills: z.array(z.string()).default([]),
+  recommendedTools: z.array(z.string()).default([]),
+  guidance: z.string().min(1),
 })
 
 export type RoleManifestInput = z.input<typeof RoleManifestSchema>

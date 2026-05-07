@@ -30,9 +30,6 @@ export {
   BACKGROUND_STATE_METADATA,
   BACKGROUND_STATE_NAMESPACE,
   BACKGROUND_STATE_VERSION,
-  EVIDENCE_STATE_METADATA,
-  EVIDENCE_STATE_NAMESPACE,
-  EVIDENCE_STATE_VERSION,
   SESSION_STATE_METADATA,
   SESSION_STATE_NAMESPACE,
   SESSION_STATE_VERSION,
@@ -41,7 +38,6 @@ export {
   WORK_PLAN_STATE_VERSION,
   serializeActiveWorkState,
   serializeBackgroundTaskHandle,
-  serializeEvidenceReference,
   serializeSessionRecord,
 } from "./state"
 export type {
@@ -51,10 +47,6 @@ export type {
   BackgroundTaskStatus,
   CancellationReason,
   CancellationRequest,
-  EvidenceKind,
-  EvidenceReference,
-  EvidenceSource,
-  EvidenceStateMetadata,
   ResumeToken,
   SessionRecord,
   SessionStateMetadata,

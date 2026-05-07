@@ -100,9 +100,9 @@ function mapManifestToDescriptor(manifest: RoleManifest): OpenCodeAgentDescripto
     description: manifest.description,
     category: manifest.category,
     recommendations: {
-      skills: manifest.defaultSkillExposure.recommendedSkills,
-      tools: manifest.defaultToolExposure.recommendedTools,
-      guidance: manifest.delegationGuidance.guidance,
+      skills: manifest.recommendedSkills,
+      tools: manifest.recommendedTools,
+      guidance: manifest.guidance,
     },
     source: {
       hash: generateHash(manifest),

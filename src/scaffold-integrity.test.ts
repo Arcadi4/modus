@@ -42,7 +42,7 @@ describe("scaffold integrity", () => {
         RoleManifestSchema.parse({
           id: "role:architect",
           name: "architect",
-          // missing neutralName, category, description
+          // missing displayName, category, description
         })
       ).toThrow()
     })
@@ -51,29 +51,12 @@ describe("scaffold integrity", () => {
       const result = RoleManifestSchema.safeParse({
         id: "role:invalid",
         name: "invalid-role-name",
-        neutralName: "Invalid Role",
+        displayName: "Invalid Role",
         category: "primary",
         description: "An invalid role",
-        recommendedCapabilities: {
-          modalities: ["text"],
-          reasoningLevel: "basic",
-          toolUseLevel: "none",
-          contextWindow: "standard",
-        },
-        defaultSkillExposure: {
-          mode: "metadata-only",
-          recommendedSkills: [],
-        },
-        defaultToolExposure: {
-          mode: "metadata-only",
-          recommendedTools: [],
-        },
-        delegationGuidance: {
-          canDelegate: false,
-          delegatesTo: [],
-          acceptsDelegationFrom: [],
-          guidance: "No delegation",
-        },
+        recommendedSkills: [],
+        recommendedTools: [],
+        guidance: "No delegation",
       })
       expect(result.success).toBe(false)
     })
@@ -82,29 +65,12 @@ describe("scaffold integrity", () => {
       const result = RoleManifestSchema.safeParse({
         id: "role:test",
         name: "architect",
-        neutralName: "Test",
+        displayName: "Test",
         category: "invalid-category",
         description: "Test role",
-        recommendedCapabilities: {
-          modalities: ["text"],
-          reasoningLevel: "basic",
-          toolUseLevel: "none",
-          contextWindow: "standard",
-        },
-        defaultSkillExposure: {
-          mode: "metadata-only",
-          recommendedSkills: [],
-        },
-        defaultToolExposure: {
-          mode: "metadata-only",
-          recommendedTools: [],
-        },
-        delegationGuidance: {
-          canDelegate: false,
-          delegatesTo: [],
-          acceptsDelegationFrom: [],
-          guidance: "Test",
-        },
+        recommendedSkills: [],
+        recommendedTools: [],
+        guidance: "Test",
       })
       expect(result.success).toBe(false)
     })
